@@ -57,6 +57,18 @@ app.put("/api/product/:id", async(req, res) => {
     }
 })
 
+app.delete("/api/product/:id", async(req, res) => {
+    try {
+        const {id} = req.params;
+        const product = await Product.findByIdAndDelete(id);
+        if(!product){
+            return res.status(400).json({message: "Products does not exist"});
+        }
+        res.status(200).json({message: "Item was deleted successfully"})
+    } catch (error) {
+        res.status(500).json({message:error.message});
+    }
+})
 
 mongoose.
 connect(process.env.MONGO_DB_URI)
